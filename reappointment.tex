@@ -1,0 +1,828 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% Simple LaTeX CV Template %%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% NOTE: If you find that it says                                     %%
+%%                                                                    %%
+%%                           1 of ??                                  %%
+%%                                                                    %%
+%% at the bottom of your first page, this means that the AUX file     %%
+%% was not available when you ran LaTeX on this source. Simply RERUN  %%
+%% LaTeX to get the ``??'' replaced with the number of the last page  %%
+%% of the document. The AUX file will be generated on the first run   %%
+%% of LaTeX and used on the second run to fill in all of the          %%
+%% references.                                                        %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Don't like 10pt? Try 11pt or 12pt
+\documentclass[11pt]{report}
+\usepackage[text]{datetime}
+\usepackage{times}
+% Finally, give us PDF bookmarks
+\usepackage{color}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.7}
+\usepackage{hyperref}
+\hypersetup{colorlinks,breaklinks,
+            linkcolor=darkblue,urlcolor=darkblue,
+            anchorcolor=darkblue,citecolor=darkblue}
+%\newcommand{\href}[2]{#2}
+
+% This is a helpful package that puts math inside length specifications
+\usepackage{calc}
+%\usepackage{acl-partial}
+%\usepackage{acl-hlt2011}
+% MRG: DISABLE NATBIB FOR BIBLATEX: 
+%\usepackage{natbib}
+\usepackage{ amssymb }
+\usepackage[warn]{ textcomp }
+\usepackage{comment}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{paralist}
+\usepackage{tabto}
+\usepackage{ifthen}
+\usepackage{environ}
+% For lorem ipsum text
+\usepackage{lipsum}
+
+% Use this for better spacing of subsections and smallcaps
+% section headers:
+\usepackage[uppercase]{titlesec}
+\titlespacing*{\chapter}{0pt}{0pt}{10pt}
+% \titleformat{\chapter}[display]
+% {\sc\Large\filcenter}
+% {\LARGE\MakeUppercase{\chaptertitlename} \thechapter}
+% {1pc}
+% {\Huge}
+\titleformat{\chapter}[display]
+     {\centering\bfseries\Large}
+     {\Huge\thechapter}
+     {0pt}
+     {\MakeUppercase}
+     []
+\titleformat{\paragraph}[runin]{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+
+% % Simpler bibsection for CV sections
+% % (thanks to natbib for inspiration)
+% \makeatletter
+% \newlength{\bibhang}
+% \setlength{\bibhang}{1em}
+% \newlength{\bibsep}
+%  {\@listi \global\bibsep\itemsep \global\advance\bibsep by\parsep}
+% \newenvironment{bibsection}%
+%         {\begin{list}{}{%
+%        \setlength{\leftmargin}{\bibhang}%
+%        \setlength{\itemindent}{-\leftmargin}%
+%        \setlength{\itemsep}{\bibsep}%
+%        \setlength{\parsep}{\z@}%
+%         \setlength{\partopsep}{0pt}%
+%         \setlength{\topsep}{0pt}}}
+%         {\end{list}\vspace{-.6\baselineskip}}
+% \makeatother
+
+% Layout: Puts the section titles on left side of page
+%\reversemarginpar
+
+%
+%         PAPER SIZE, PAGE NUMBER, AND DOCUMENT LAYOUT NOTES:
+%
+% The next \usepackage line changes the layout for CV style section
+% headings as marginal notes. It also sets up the paper size as either
+% letter or A4. By default, letter was used. If A4 paper is desired,
+% comment out the letterpaper lines and uncomment the a4paper lines.
+%
+% As you can see, the margin widths and section title widths can be
+% easily adjusted.
+%
+% ALSO: Notice that the includefoot option can be commented OUT in order
+% to put the PAGE NUMBER *IN* the bottom margin. This will make the
+% effective text area larger.
+%
+% IF YOU WISH TO REMOVE THE ``of LASTPAGE'' next to each page number,
+% see the note about the +LP and -LP lines below. Comment out the +LP
+% and uncomment the -LP.
+%
+% IF YOU WISH TO REMOVE PAGE NUMBERS, be sure that the includefoot line
+% is uncommented and ALSO uncomment the \pagestyle{empty} a few lines
+% below.
+%
+
+%% Use these lines for letter-sized paper
+\usepackage[paper=letterpaper,
+            %includefoot, % Uncomment to put page number above margin
+            %marginparwidth=1.2in,     % Length of section titles
+            %marginparsep=.05in,       % Space between titles and text
+            margin=1in,               % 1 inch margins
+            ]{geometry}
+
+%% More layout: Get rid of indenting throughout entire document
+%\setlength{\parindent}{0in}
+
+\usepackage[shortlabels]{enumitem}
+
+%% Reference the last page in the page number
+%
+% NOTE: comment the +LP line and uncomment the -LP line to have page
+%       numbers without the ``of ##'' last page reference)
+%
+% NOTE: uncomment the \pagestyle{empty} line to get rid of all page
+%       numbers (make sure includefoot is commented out above)
+%
+\usepackage{fancyhdr,lastpage}
+% \pagestyle{fancy}
+\pagestyle{empty}      % Uncomment this to get rid of page numbers
+\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+\fancyfootoffset{\marginparsep+\marginparwidth}
+\newlength{\footpageshift}
+\setlength{\footpageshift}
+          {0.5\textwidth+0.5\marginparsep+0.5\marginparwidth-2in}
+\lfoot{\hspace{\footpageshift}%
+       \parbox{4in}{\, \hfill %
+                    \arabic{page} of \protect\pageref*{LastPage} % +LP
+%                    \arabic{page}                               % -LP
+                    \hfill \,}}
+
+% ===================
+% BibLaTeX
+% =================== 
+\usepackage[style=numeric, backend=bibtex,
+sorting=ydnt,
+defernumbers=true,
+maxbibnames=99, 
+url=false, doi=false, isbn=false,
+hyperref=true,
+maxcitenames=2]{biblatex}
+
+% Never show the month.
+\AtEveryBibitem{
+  \clearfield{month}{}
+  \clearlist{language}{}
+  \clearfield{editor}{}
+  \clearfield{pages}
+}
+% Add URL to title.
+\DeclareNameAlias{sortname}{first-last}
+\newbibmacro{string+doiurlisbn}[1]{%
+  \iffieldundef{doi}{%
+    \iffieldundef{url}{%
+      \iffieldundef{isbn}{%
+        \iffieldundef{issn}{%
+          #1%
+        }{%
+          \href{http://books.google.com/books?vid=ISSN\thefield{issn}}{#1}%
+        }%
+      }{%
+        \href{http://books.google.com/books?vid=ISBN\thefield{isbn}}{#1}%
+      }%
+    }{%
+      \href{\thefield{url}}{#1}%
+    }%
+  }{%
+    \href{http://dx.doi.org/\thefield{doi}}{#1}%
+  }%
+}
+\DeclareFieldFormat{title}{\usebibmacro{string+doiurlisbn}{\mkbibemph{#1}}}
+\DeclareFieldFormat[article,inproceedings]{title}%
+{\usebibmacro{string+doiurlisbn}{\mkbibquote{#1}}}
+\addbibresource{mypapers.bib}
+\addbibresource{mysoftware.bib}
+ 
+\AtEveryBibitem{
+  \clearfield{address}
+  \clearfield{location}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% The title (name) with a horizontal rule under it
+% (optional argument typesets an object right-justified across from name
+%  as well)
+%
+% Usage: \makeheading{name}
+%        OR
+%        \makeheading[right_object]{name}
+%
+% Place at top of document. It should be the first thing.
+% If ``right_object'' is provided in the square-braced optional
+% argument, it will be right justified on the same line as ``name'' at
+% the top of the CV. For example:
+%
+%       \makeheading[\emph{Curriculum vitae}]{Your Name}
+%
+% will put an emphasized ``Curriculum vitae'' at the top of the document
+% as a title. Likewise, a picture could be included:
+%
+%   \makeheading[\includegraphics[height=1.5in]{my_picutre}]{Your Name}
+%
+% the picture will be flush right across from the name.
+\newcommand{\makeheading}[2][]%
+        {\hspace*{-\marginparsep minus \marginparwidth}%
+         \begin{minipage}[t]{\textwidth+\marginparwidth+\marginparsep}%
+             {\large \bfseries #2 \hfill #1}\\[-0.15\baselineskip]%
+                 \rule{\columnwidth}{1pt}%
+         \end{minipage}}
+
+% The section headings
+%
+% Usage: \section{section name}
+% \renewcommand{\section}[1]{\pagebreak[3]%
+%     \hyphenpenalty=10000%
+%     \vspace{1.3\baselineskip}%
+%     %\phantomsection\addcontentsline{toc}{section}{#1}%
+%     \noindent\llap{\scshape\smash{\parbox[t]{\marginparwidth}{\raggedright #1}}}%
+%     \vspace{-\baselineskip}\par}
+%
+% \renewcommand{\subsection}[1]{{\addvspace{1em}\noindent\small\textsc{#1}}\vspace{.5em}}
+  
+% An itemize-style list with lots of space between items
+% \newenvironment{outerlist}[1][\enskip\textbullet]%
+%         {\begin{itemize}[#1,leftmargin=*]}{\end{itemize}%
+%          \vspace{-.6\baselineskip}}
+
+\newenvironment{outerlist}[1][\enskip\textbullet]%
+        {\begin{list}{-}{
+              \setlength{\itemsep}{0pt}
+              \setlength{\parsep}{1pt}
+              \setlength{\topsep}{2pt}
+              %\setlength{\labelwidth}{10em}
+              \setlength{\leftmargin}{2em}
+             }}
+          {\end{list}}
+
+\newenvironment{innerlist}[1][\enskip\textbullet]%
+        {\begin{list}{\raisebox{.1em}{{\small \textopenbullet}}}{
+              \setlength{\itemsep}{0pt}
+              \setlength{\parsep}{1pt}
+              \setlength{\topsep}{0pt}
+              %\setlength{\labelwidth}{10em}
+              \setlength{\leftmargin}{2em}
+             }}
+          {\end{list}}
+
+\newenvironment{lonelist}[1][\enskip\textbullet]%
+        {\begin{list}{-}{
+              \setlength{\topsep}{0pt}
+              \setlength{\itemsep}{2pt}
+              \setlength{\parsep}{1pt}
+              %\setlength{\labelwidth}{1em}
+              %\setlength{\labelsep}{1em}
+              \setlength{\leftmargin}{1em}
+             }}
+          {\end{list}}
+
+\newenvironment{biblist}
+        {\begin{list}{}{
+        \setlength{\topsep}{0pt}
+       \setlength{\itemsep}{2pt}
+       \setlength{\leftmargin}{1em}
+       \setlength{\itemindent}{-\leftmargin}
+       \setlength{\parsep}{1pt}
+        \setlength{\partopsep}{0pt}}}
+       {\end{list}}
+
+\newcommand{\verbose}[1]{}
+
+% % An environment IDENTICAL to outerlist that has better pre-list spacing
+% % when used as the first thing in a \section
+% \newenvironment{lonelist}[1][\enskip\textbullet]%
+%         {\begin{list}{#1}{%
+%         \setlength{\partopsep}{0pt}%
+%         \setlength{\topsep}{0pt}}}
+%         {\end{list}\vspace{-.6\baselineskip}}
+
+% % An itemize-style list with little space between items
+% \newenvironment{innerlist}[1][\enskip\textbullet]%
+%         {\begin{itemize}[#1,leftmargin=*,parsep=0pt,itemsep=0pt,topsep=0pt,partopsep=0pt]}
+%         {\end{itemize}}
+
+% An environment IDENTICAL to innerlist that has better pre-list spacing
+% when used as the first thing in a \section
+\newenvironment{loneinnerlist}[1][\enskip\textbullet]%
+        {\begin{itemize}[#1,leftmargin=*,parsep=0pt,itemsep=0pt,topsep=0pt,partopsep=0pt]}
+        {\end{itemize}\vspace{-.6\baselineskip}}
+
+% To add some paragraph space between lines.
+% This also tells LaTeX to preferably break a page on one of these gaps
+% if there is a needed pagebreak nearby.
+%\newcommand{\blankline}{\quad\pagebreak[3]}
+%\newcommand{\halfblankline}{\quad\vspace{-0.5\baselineskip}\pagebreak[3]}
+%\setlength{\parskip}{0.5em}
+
+% For \url{SOME_URL}, links SOME_URL to the url SOME_URL
+\providecommand*\url[1]{\href{#1}{#1}}
+% Same as above, but pretty-prints SOME_URL in teletype fixed-width font
+\renewcommand*\url[1]{\href{#1}{\texttt{#1}}}
+
+% For \email{ADDRESS}, links ADDRESS to the url mailto:ADDRESS
+\providecommand*\email[1]{\href{mailto:#1}{#1}}
+% Same as above, but pretty-prints ADDRESS in teletype fixed-width font
+%\renewcommand*\email[1]{\href{mailto:#1}{\texttt{#1}}}
+
+%\providecommand\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+%    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+%\providecommand\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+%    \TeX}}
+\providecommand\BibTeX{{B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    \TeX}}
+\providecommand\Matlab{\textsc{Matlab}}
+
+\newcommand{\dates}[1]{\hfill \textit{#1}}
+\newcommand{\location}[1]{\hfill #1}
+\newcommand{\position}[1]{\\\textit{#1}}
+\newcommand{\project}[1]{\textbf{#1}}
+\newcommand{\institution}[1]{\textit{#1}}
+
+% Highlights
+%\newcommand{\hlight}[1]{\textcolor{blue}{#1}}
+\newcommand{\hlight}[1]{#1}
+%\newcommand{\bstart}[1]{\textbf{#1}}
+\newcommand{\bstart}[1]{#1}
+
+% Do not show section numbering
+\setcounter{secnumdepth}{-1}
+
+
+% REDACTED
+% Command for eliding other instructors
+\newcommand{\oinstr}[1]{SCS professor}
+\newcommand{\oinstrs}[1]{SCS professors (co-taught)}
+
+% To change between a CMU Internal version (set to value 1) of this CV for reappointment
+% and an external one (set to value 0).
+\newcommand{\cmuinternal}{1}
+
+\ifthenelse{\equal{\cmuinternal}{1}}{
+  \NewEnviron{internalonly}{\BODY} % Visible
+  \NewEnviron{externalonly}{} % Invisible
+}{
+  \NewEnviron{internalonly}{} % Invisible
+  \NewEnviron{externalonly}{\BODY} % Visible
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Begin CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{internalonly}
+\tableofcontents
+\end{internalonly}
+
+\chapter{Curriculum Vitae}
+
+\begin{externalonly}
+
+\section{Contact}
+
+% NOTE: Mind where the & separators and \\ breaks are in the following
+%       table.
+%
+% ALSO: \rcollength is the width of the right column of the table
+%       (adjust it to your liking; default is 1.85in).
+%
+\newlength{\rcollength}\setlength{\rcollength}{2.5in}%
+%
+\begin{tabular}[t]{@{}p{\linewidth-\rcollength}p{\rcollength}}
+{\large \bf Grace Hopper} & \\
+Yale University   & \textit{E-mail:} \email{ghopper@yale.edu}\\
+38 Hillhouse Avenue  & \textit{Phone:} 412-779-2018 \\
+New Haven, CT 06520    &       \href{http://www.yale.edu/~ghopper/}{http://www.yale.edu/~ghopper/}
+\end{tabular}
+\end{externalonly}
+
+\textit{IMPORTANT NOTE: The contents of this template are entirely generated by a large language model and are solely intended as an example for how to format this document. The contents were not checked for historical accuracy.}
+
+\section{Education}
+
+\begin{itemize}
+
+\item \textbf{Yale University} \dates{1930--1934}\\
+\textit{Graduate School of Arts and Sciences}
+\begin{outerlist}
+\item Ph.D. in Mathematics, {1934}
+  \begin{innerlist}
+  \item Dissertation: “New Types of Irreducibility Criteria”
+  \item One of the first women to earn a Ph.D. in Mathematics from Yale
+  \end{innerlist}
+\item M.A. in Mathematics, {1930}
+\end{outerlist}
+
+\item \textbf{Vassar College} \dates{1924--1928}\\
+\textit{Department of Mathematics and Physics}
+\begin{outerlist}
+\item B.A. in Mathematics and Physics, {1928}
+  \begin{innerlist}
+  \item Graduated Phi Beta Kappa
+  \item Valedictorian-level academic standing
+  \end{innerlist}
+\end{outerlist}
+
+\end{itemize}
+
+\section{Employment}
+
+\begin{itemize}
+
+\item \textbf{United States Navy} \dates{1943--1986} 
+\position{Rear Admiral (lower half)}, United States Naval Reserve 
+\position{Pioneer in Automatic Programming and Compiler Design}
+\vspace{1em}
+
+\item \textbf{Remington Rand / Sperry Corporation} \dates{1949--1966} 
+\position{Senior Mathematician}, UNIVAC Division 
+\position{Lead Developer}, A-0 Compiler and Early COBOL Standardization
+\vspace{1em}
+
+\item \textbf{Harvard University} \dates{1944--1949} 
+\position{Research Fellow}, Computation Laboratory 
+\position{Programmer}, Mark I and Mark II Computers under Howard Aiken
+\vspace{1em}
+
+\item \textbf{Vassar College} \dates{1931--1943} 
+\position{Associate Professor}, Department of Mathematics
+\vspace{1em}
+
+\end{itemize}
+
+%SKIP: \section{Personal}
+
+\begin{internalonly}
+  
+\chapter{Statement of Career Goals}
+
+% Fill with lorem ipsum text
+\lipsum[1-2]
+
+
+\end{internalonly}
+
+
+\chapter{Publications List}
+
+% NEW WAY
+% Using biblatex package to create multiple bibliographies,
+% subdividing by type or keyword.
+%
+% http://texblog.org/2012/10/22/multiple-bibliographies-with-biblatex/
+% http://tex.stackexchange.com/questions/48023/mimic-bibtex-apalike-with-biblatex-biblatex-apa-broken
+%
+
+\nocite{*}
+\setlength\bibitemsep{7pt}
+\printbibliography[heading=subbibliography,title={Refereed Journal
+  Papers - Published},type=article]
+\printbibliography[heading=subbibliography,title={Refereed Conference/Workshop
+  Papers},type=inproceedings]
+\printbibliography[heading=subbibliography,title={Technical
+  Reports},type=report]
+\printbibliography[heading=subbibliography,title={Other
+  Publications},type=thesis]
+\printbibliography[heading=subbibliography,title={Software Artifacts},type=misc]
+
+
+\begin{externalonly}
+\chapter{Funding}
+\begin{lonelist}
+\item Generous Donor [\$1] \dates{2099}
+\item Really Generous Donor [\$2] \dates{2098}
+\end{lonelist}
+\end{externalonly}
+
+\begin{internalonly}
+\chapter{Recent Publications}
+
+Numeric citations below refer to the {\sc publications list} above.
+\begin{itemize}
+  \item \cite{hopper_compiling_1988} Hopper (1988)
+  \item \cite{hopper_automatic_1955} Hopper (1955)
+  \item \cite{hopper_education_1952} Hopper (1952)
+\end{itemize}
+  
+\chapter{Contract and Grant Support}
+Supplied by Department.
+
+\chapter{Faculty Course Evaluations}
+Supplied by Department.
+
+\chapter{Statement of Teaching Philosophy and Self Evaluation}
+
+\lipsum[1-2]
+
+\end{internalonly}
+
+\chapter{Contributions to Education}
+
+\begin{internalonly}
+
+\textit{Below are some ideas for sections to include in this chapter.}
+
+\section{Curriculum Design}
+
+\begin{itemize}
+\item \lipsum[1]
+\item \lipsum[2]
+\item \lipsum[3]
+\end{itemize}
+
+\section{Teaching Materials}
+
+\begin{itemize}
+\item \lipsum[1]
+\item \lipsum[2]
+\item \lipsum[3]
+\end{itemize}
+
+\section{Assessments}
+
+\begin{itemize}
+\item \lipsum[1]
+\item \lipsum[2]
+\item \lipsum[3]
+\end{itemize}
+
+
+\section{New Programs}
+
+\begin{itemize}
+\item \lipsum[1]
+\item \lipsum[2]
+\item \lipsum[3]
+\end{itemize}
+
+\end{internalonly}
+
+
+%\chapter{Evidence of Teaching Performance}
+
+\newcommand{\crsNote}[1]{\tabto{6.1cm}[#1]}
+
+\section{Courses Taught At Carnegie Mellon}
+
+\textit{Below is an example of how to possibly format these lists.}
+\begin{itemize}
+
+\item
+  \href{https://www.vassar.edu/}
+  {Mathematics 101: Introduction to Mathematical Reasoning}
+  \dates{Fall 1935}\\
+  \emph{Foundations of logic, set theory, and proof techniques for undergraduates}\\
+  35 students
+
+\item
+  \href{https://www.vassar.edu/}
+  {Mathematics 205: Differential and Integral Calculus}
+  \dates{Spring 1938}\\
+  \emph{Classical calculus with applications to physics and engineering}\\
+  42 students
+
+\item
+  \href{https://www.vassar.edu/}
+  {Mathematics 312: Applied Mathematics and Numerical Methods}
+  \dates{Spring 1942}\\
+  \emph{Focus on mathematical techniques relevant to wartime computation}\\
+  27 students
+
+\end{itemize}
+
+\section{Courses Taught Outside Carnegie Mellon}
+
+\begin{itemize}
+
+\item
+  \href{https://www.vassar.edu/}
+  {Mathematics 398: Seminar on Logic and Machines}
+  \dates{Fall 1943}\\
+  \emph{Independent study course introducing students to formal logic and mechanical computation concepts}\\
+  12 students
+
+\end{itemize}
+
+\section{Other Courses Taught}
+
+\begin{itemize}
+
+\item Summer School course
+
+\end{itemize}
+
+\begin{internalonly}
+\chapter{Professional Activities}
+\end{internalonly}
+
+\section{Conference and Workshop Committees}
+
+\begin{itemize}
+\item
+  National Meeting on Automatic Programming, U.S. Navy \dates{1952} \\
+  \emph{Served as organizer and lead speaker on automatic compilers}
+\item
+  ACM National Conference \dates{1976} \\
+  \emph{Keynote Speaker: "The Future of Computers"}
+\end{itemize}
+
+\section{Consulting}
+
+\begin{itemize}
+\item
+  \textbf{Remington Rand / Sperry Univac} \dates{1949--1966} \\
+  Consultant and senior mathematician for UNIVAC software systems
+\item
+  \textbf{U.S. Department of Defense} \dates{1967--1986} \\
+  Advised on programming language standardization (especially COBOL)
+\end{itemize}
+
+\section{Memberships in Professional Societies}
+
+\begin{itemize}
+\item Fellow, Association for Computing Machinery (ACM)
+\item Fellow, Institute of Electrical and Electronics Engineers (IEEE)
+\item Member, American Association for the Advancement of Science (AAAS)
+\item Member, U.S. Navy League
+\end{itemize}
+
+\section{Editorial Board Memberships}
+
+\begin{itemize}
+\item Advisory contributor to technical documentation for the COBOL standard \dates{1960--1963}
+\end{itemize}
+
+\section{Other}
+
+\begin{itemize}
+\item Namesake of the annual \href{https://ghc.anitab.org/}{Grace Hopper Celebration of Women in Computing} \\
+  \emph{The world's largest gathering of women in technology}
+\item Recipient of the National Medal of Technology (1991, posthumously)
+\item Namesake of the USS Hopper (DDG-70), a U.S. Navy destroyer
+\end{itemize}
+
+
+\begin{internalonly}
+\chapter{Evidence of External Reputation}
+\end{internalonly}
+\section{Citations and Awards}
+
+\begin{itemize}
+\item National Medal of Technology, \institution{President George H. W. Bush, United States} \dates{1991 (posthumously)}
+\item IEEE Emanuel R. Piore Award \institution{IEEE} \dates{1988}
+\item ACM Distinguished Service Award \institution{Association for Computing Machinery} \dates{1971}
+\item Navy Meritorious Service Medal \institution{United States Navy} \dates{1980}
+\item First Computer Science Man-of-the-Year Award \institution{Data Processing Management Association} \dates{1969}
+\end{itemize}
+
+\section{Invited Talks}
+\begin{itemize}
+\item Keynote Address, \institution{ACM National Conference} \dates{1976} \\
+\emph{"The Future of Computers"}
+\item Lecture Series on Automatic Programming, \institution{U.S. Navy Programming Schools} \dates{1952--1960}
+\item Distinguished Speaker, \institution{National Bureau of Standards COBOL Conference} \dates{1960}
+\end{itemize}
+
+\section{Seminars \& Colloquia}
+\begin{itemize}
+\item Seminar on Compiler Construction, \institution{Harvard Computation Laboratory} \dates{1946}
+\item Guest Colloquium on High-Level Languages, \institution{University of Pennsylvania} \dates{1961}
+\item Seminar on Technology and Education, \institution{MIT Lincoln Laboratory} \dates{1979}
+\end{itemize}
+
+\section{Other}
+\begin{itemize}
+\item Namesake of the \href{https://ghc.anitab.org/}{Grace Hopper Celebration of Women in Computing}, the world's largest gathering of women technologists.
+\item Namesake of the USS \textit{Hopper} (DDG-70), a guided-missile destroyer in the U.S. Navy.
+\item Inducted into the National Women’s Hall of Fame \dates{1994}
+\item Presidential Medal of Freedom (posthumously awarded) \institution{President Barack Obama} \dates{2016}
+\end{itemize}
+
+
+\begin{internalonly}
+\chapter{University, College, and Department Service}
+
+\section{University Service and Committee Work}
+
+\begin{itemize}
+\item Faculty Advisor for Mathematics Club \dates{Vassar College, 1935--1943} \\
+  Organized student engagement in applied mathematics and academic competitions
+\item Curriculum Committee on Wartime Education \dates{Vassar College, 1942--1943} \\
+  Helped adapt curriculum to support wartime training in mathematics and computation
+\end{itemize}
+
+\section{School and Department Service and Committee Work}
+
+\begin{itemize}
+\item Chair, Mathematics Department Faculty Seminar Series \dates{Vassar College, 1938--1942}
+\item Organizer, Student Colloquia on Logic and Symbolic Methods \dates{1937--1941}
+\end{itemize}
+
+\section{Other}
+
+\begin{itemize}
+\item Mentor and trainer for early women programmers in the U.S. Navy \dates{1944--1960}
+\item Organizer and instructor, Naval training programs on compiler theory and COBOL \dates{1959--1970}
+\end{itemize}
+
+
+\chapter{Statement of Other Service Contributions}
+
+\lipsum[1-2]  
+
+
+\chapter{Student Advising}
+
+\newcommand{\advWork}[1]{
+  \begin{compactitem}[$\hookrightarrow$]
+  \item #1
+  \end{compactitem}
+}
+\newcommand{\advNote}[1]{\tabto{6.1cm}[#1]}
+
+\section{PhD Students}
+
+\begin{itemize}
+
+\item Mary Van Rensselaer Buell (PhD, Navy Programming School)
+  \advNote{informal doctoral-level mentorship during UNIVAC project}
+  \dates{1950--1954}\\
+  \hphantom{Mary Van Rensselaer Buell}
+  \advWork{worked on compiler optimizations and symbolic instruction translation}
+  
+\end{itemize}
+
+\section{Master's Students}
+
+\begin{itemize}
+
+\item Frances Holberton (MS, ENIAC Project)
+  \advNote{mentored during Navy programming efforts}
+  \dates{1946--1952} \\
+  \hphantom{Frances Holberton}
+  \advWork{developed key sorting and editing routines for COBOL}
+
+\item Jean Bartik (MS, Moore School of Engineering)
+  \advNote{early collaborator and mentee}
+  \dates{1945--1950} \\
+  \hphantom{Jean Bartik}
+  \advWork{worked on ENIAC programming and early debugging methods}
+
+\end{itemize}
+
+\section{Undergraduate Students}
+
+\begin{itemize}
+
+\item Eleanor Kolchin (BA, Vassar College)
+  \advNote{independent study in numerical methods}
+  \dates{1940--1943}
+
+\item Ruth Teitelbaum (BA, Hunter College)
+  \advNote{trained under Hopper at Harvard and later the Navy}
+  \dates{1945--1949}
+
+\end{itemize}
+
+\section{MS or PhD Thesis Committee Service}
+
+\begin{itemize}
+\item Historical mentorship role only — no formal thesis committee records available. Hopper's work predated widespread university committee structures for computing disciplines.
+\end{itemize}
+
+\end{internalonly}
+
+
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% End CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------%
+% The following is copyright and licensing information for
+% redistribution of this LaTeX source code; it also includes a liability
+% statement. If this source code is not being redistributed to others,
+% it may be omitted. It has no effect on the function of the above code.
+%----------------------------------------------------------------------%
+% Copyright (c) 2007, 2008, 2009, 2010, 2011 by Theodore P. Pavlic
+%
+% Unless otherwise expressly stated, this work is licensed under the
+% Creative Commons Attribution-Noncommercial 3.0 United States License. To
+% view a copy of this license, visit
+% http://creativecommons.org/licenses/by-nc/3.0/us/ or send a letter to
+% Creative Commons, 171 Second Street, Suite 300, San Francisco,
+% California, 94105, USA.
+%
+% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+% OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+% MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+% IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+% CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+% TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+% SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+%----------------------------------------------------------------------%
